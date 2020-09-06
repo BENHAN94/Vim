@@ -31,9 +31,16 @@ void Display(struct Node *p){
         p=p->next;
     }
 }
+void RDisplay(struct Node *p)
+{
+    if(p){
+        printf("%d ", p->data);
+        RDisplay(p->next);
+    }
+}
 int main(){
     int A[]={3,5,7,10,15};
     create(A, 5);
-    Display(first);
+    RDisplay(first);
     return 0;
 }
