@@ -16,7 +16,7 @@ void create(int A[], int n)
     first->data=A[0];
     first->next=NULL;
     last=first;
-
+   
     for(i=1;i<n;i++)
     {
         t=(struct Node*)malloc(sizeof(struct Node));
@@ -108,12 +108,26 @@ struct Node *Rsearch(struct Node *p, int x){
     }
     return NULL;
 }
-
+struct Node *Isearch(struct Node *p, int x){
+	struct Node *q;
+	while(p){
+		if(x==p->data){
+			p->next=p->next;
+			p->next=first;
+			first=p;
+			return p;
+		}else {
+			q=p;
+			p=p->next;
+		}
+}
+	return NULL;
+}
 
 int main(){
     int A[]={3,5,7,10,15};
     create(A, 5);
-    printf("%p",Rsearch(first, 15));
+    printf("%p",Isearch(first, 15));
     return 0;
 }
 
