@@ -108,9 +108,15 @@ struct Node *Rsearch(struct Node *p, int x){
     return NULL;
 }
 
+
 int main(){
     int A[]={3,5,7,10,15};
     create(A, 5);
     printf("%p",Rsearch(first, 15));
     return 0;
 }
+
+
+
+
+
