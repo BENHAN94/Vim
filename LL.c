@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 
+
 struct Node
 {
     int data;
@@ -112,7 +113,7 @@ struct Node *Isearch(struct Node *p, int x){
 	struct Node *q;
 	while(p){
 		if(x==p->data){
-			p->next=p->next;
+			q->next=p->next;
 			p->next=first;
 			first=p;
 			return p;
@@ -125,9 +126,17 @@ struct Node *Isearch(struct Node *p, int x){
 }
 
 int main(){
-    int A[]={3,5,7,10,15};
-    create(A, 5);
-    printf("%p",Isearch(first, 15));
+	struct Node *temp=NULL;
+    int A[]={3,5,7,10,25,8,32,2};
+    create(A, 8);
+	temp=Isearch(first,25);
+	temp=Isearch(first,8);
+	if(temp){
+		printf("Key is Found %d\n",temp->data);
+	}else{
+		printf("Key is not found");
+	}
+	Display(first);
     return 0;
 }
 
