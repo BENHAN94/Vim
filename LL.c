@@ -197,10 +197,20 @@ void Delete(struct Node *p, int index){
 		free(p);
 	}	
 } 
+int IsSorted(struct Node *p){
+	int m=INT32_MIN;
+	while(p){
+		if(m>p->data){
+			return 0;
+		}
+		m=p->data;
+		p=p->next; 
+	}
+	return 1;
+}
 int main(){
 	int A[]={3,7,9,15,20}; 
 	create(A,5);
-	Delete(first, 1);
 	Display(first);
     return 0;
 }
