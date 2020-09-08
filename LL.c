@@ -124,18 +124,31 @@ struct Node *Isearch(struct Node *p, int x){
 }
 	return NULL;
 }
+void Insert(struct Node *p, int n, int x){
+	struct Node *t=(struct Node *)malloc(sizeof(struct Node));
+	t->data=x;
+	p=first;
+	int i;
+	for(i=0;i<n-2;i++){
+		p=p->next;
+	}
+	t->next=p->next;
+	p->next=t;
+}
+
+void InsertF(struct Node *p, int x){
+	struct Node *q;
+	q=(struct Node *)malloc(sizeof(struct Node));
+	q->data=x;
+	q->next=first;
+	first=q;
+}
 
 int main(){
 	struct Node *temp=NULL;
     int A[]={3,5,7,10,25,8,32,2};
     create(A, 8);
-	temp=Isearch(first,25);
-	temp=Isearch(first,8);
-	if(temp){
-		printf("Key is Found %d\n",temp->data);
-	}else{
-		printf("Key is not found");
-	}
+	Insert(first, 0,17);
 	Display(first);
     return 0;
 }
