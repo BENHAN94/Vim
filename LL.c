@@ -7,7 +7,7 @@ struct Node
 {
     int data;
     struct Node *next;
-}*first=NULL;
+}*first=NULL,*second=NULL,*third=NULL;
 
 void create(int A[], int n)
 {
@@ -17,6 +17,42 @@ void create(int A[], int n)
     first->data=A[0];
     first->next=NULL;
     last=first;
+   
+    for(i=1;i<n;i++)
+    {
+        t=(struct Node*)malloc(sizeof(struct Node));
+        t->data=A[i];
+        t->next=NULL;
+        last->next=t;
+        last=t;
+    }
+}
+void create2(int A[], int n)
+{
+    int i;
+    struct Node *t,*last;
+    second=(struct Node *)malloc(sizeof(struct Node));
+    second->data=A[0];
+    second->next=NULL;
+    last=second;
+   
+    for(i=1;i<n;i++)
+    {
+        t=(struct Node*)malloc(sizeof(struct Node));
+        t->data=A[i];
+        t->next=NULL;
+        last->next=t;
+        last=t;
+    }
+}
+void create3(int A[], int n)
+{
+    int i;
+    struct Node *t,*last;
+    third=(struct Node *)malloc(sizeof(struct Node));
+    third->data=A[0];
+    third->next=NULL;
+    last=third;
    
     for(i=1;i<n;i++)
     {
@@ -180,8 +216,7 @@ void InsertSorted(struct Node *p, int x){
 }
 void Delete(struct Node *p, int index){
 	struct Node *q;
-	int i;
-	int x;
+	int i,x;
 	if(index==0){
 		q=first;
 		x=first->data;
@@ -208,10 +243,98 @@ int IsSorted(struct Node *p){
 	}
 	return 1;
 }
+void RemoveDuplicate(struct Node *p){
+	p=first;
+	struct Node *q=first->next; 
+	while(q){
+	if(p->data!=q->data){
+		p=q;
+		q=q->next;
+	}else{
+		p->next=q->next;
+		free(q);
+		q=p->next;
+	}
+	}
+}
+void Reverse(struct Node *p){
+	int n=Count(p);
+	int A[n];
+	int i=0;
+	while(p){
+		A[i]=p->data;
+		p=p->next;
+		i++; 
+	}
+	p=first;
+	for(i=n-1;i>=0;i--){
+		p->data=A[i];
+		p=p->next;
+	} 
+}
+void ReverseP(struct Node *p){
+	struct Node *q=NULL;
+	struct Node *r=NULL;
+	while(p){
+		r=q;
+		q=p;
+		p=p->next;
+		q->next=r; 
+	}
+	first=q;
+}
+void RreverseP(struct Node *p, struct Node *q){
+	if(p){
+		RreverseP(p->next,p);
+		p->next=q;
+	}else{
+		first=q;
+	}
+}
+void Concatnate(struct Node *p, struct Node *q){
+	third=p;
+	while(p->next){
+		p=p->next;
+	}
+	p->next=q;
+}
+void Merge(struct Node *f, struct Node *s){
+	struct Node *l;
+	if(f->data<s->data){
+		third=l=f;
+		f=f->next;
+		l->next=NULL;
+	}else{
+		third=l=s;
+		s=s->next;
+		l->next=NULL;
+	}
+	while(f && s){
+	if(f->data>s->data){
+		l->next=s;	
+		l=s;
+		s=s->next;
+		l->next=NULL;	
+	}else{
+		l->next=f;
+		l=f;
+		f=f->next;
+		l->next=NULL;
+		}
+	} 
+	if(f){
+		l->next=f;
+	}else{
+		l->next=s;
+	}
+}
 int main(){
-	int A[]={3,7,9,15,20}; 
-	create(A,5);
-	Display(first);
+	int A[]={1,3,5,7,9,11}; 
+	create(A,6); 
+	int B[]={2,4,6,8,10};
+	create2(B,5);
+	Merge(first,second);
+	Display(third);
     return 0;
 }
 
