@@ -125,30 +125,82 @@ struct Node *Isearch(struct Node *p, int x){
 	return NULL;
 }
 void Insert(struct Node *p, int n, int x){
+	int i;
+	if(n<0||n>Count(p)){
+		return;
+	} 
 	struct Node *t=(struct Node *)malloc(sizeof(struct Node));
 	t->data=x;
 	p=first;
-	int i;
+	if(n==0){
+		t->next=first;
+		first=t;
+	}else{
 	for(i=0;i<n-2;i++){
 		p=p->next;
 	}
 	t->next=p->next;
 	p->next=t;
+	}
 }
 
-void InsertF(struct Node *p, int x){
+void InsertLast(struct Node *p, int x){
+	struct Node *t=(struct Node *)malloc(sizeof(struct Node));
+	struct Node *last;
+	t->data=x;
+	t->next=NULL;
+	if(first==NULL){
+		first=last=t;
+	}else{
+		last->next=t;
+		last=t;
+	}
+}
+void InsertSorted(struct Node *p, int x){
+	struct Node *t=(struct Node *)malloc(sizeof(struct Node));
+	t->data=x;
+	t->next=NULL;
+	if(first==NULL){
+		first=t;
+	}else{
+	if(x<first->data){
+		t->next=first;
+		first=t;
+	}else{
 	struct Node *q;
-	q=(struct Node *)malloc(sizeof(struct Node));
-	q->data=x;
-	q->next=first;
-	first=q;
+	p=first;
+	while(p && p->data<x){
+	q=p;
+	p=p->next;	
+	}
+	t->next=p;
+	q->next=t;
+	}
+	}
 }
-
+void Delete(struct Node *p, int index){
+	struct Node *q;
+	int i;
+	int x;
+	if(index==0){
+		q=first;
+		x=first->data;
+		free(first);
+		first=q->next;
+	}else{
+		for(i=0;i<index;i++){
+			q=p;
+			p=p->next;
+		}
+		q->next=p->next;
+		x=p->data;
+		free(p);
+	}	
+} 
 int main(){
-	struct Node *temp=NULL;
-    int A[]={3,5,7,10,25,8,32,2};
-    create(A, 8);
-	Insert(first, 0,17);
+	int A[]={3,7,9,15,20}; 
+	create(A,5);
+	Delete(first, 1);
 	Display(first);
     return 0;
 }
