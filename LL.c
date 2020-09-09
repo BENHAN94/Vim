@@ -7,7 +7,7 @@ struct Node
 {
     int data;
     struct Node *next;
-}*first=NULL,*second=NULL,*third=NULL;
+}*first=NULL,*second=NULL,*third=NULL,*head=NULL;
 
 void create(int A[], int n)
 {
@@ -27,6 +27,7 @@ void create(int A[], int n)
         last=t;
     }
 }
+
 void create2(int A[], int n)
 {
     int i;
@@ -328,13 +329,19 @@ void Merge(struct Node *f, struct Node *s){
 		l->next=s;
 	}
 }
+int isLoop(struct Node *f){
+	struct Node *p,*q;
+	p=q=f;
+	do{
+		p=p->next;
+		q=q->next;
+		q=q?q->next:NULL; 
+	}while(p && q && p!=q);
+	return p==q?1:0;
+}
+
 int main(){
-	int A[]={1,3,5,7,9,11}; 
-	create(A,6); 
-	int B[]={2,4,6,8,10};
-	create2(B,5);
-	Merge(first,second);
-	Display(third);
+	int A[]={10,20,30,40,50};
     return 0;
 }
 
