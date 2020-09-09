@@ -78,14 +78,18 @@ int isLoop(struct Node *f){
 	}while(p && q && p!=q);
 	return p==q?1:0;
 }
-void delete(struct Node *p, int index){
-	int i;
+int delete(struct Node *p, int index){
+	int i,x;
 	struct Node *q;
+	if(index<0 || index>length(head)){
+		return -1;
+	}
 	if(index==0){ 
 		do{
 			p=p->next;
 		}while(p->next!=head);
 		p->next=head->next;
+		x=head->data;
 		free(head);
 		head=p->next;	
 	}else{
@@ -94,14 +98,16 @@ void delete(struct Node *p, int index){
 		p=p->next;
 		}
 		q->next=p->next;
+		x=p->data;
 		free(p);	
 	}
+	return x;
+
 }
 int main(){ 
 	int A[]={10,20,30,40,50};
 	create(A,5);
-	insert(head,0,5);
-	delete(head,2);
+	printf("%d is deleted\n",delete(head,0));
 	display(head);
 	return 0;
 }
