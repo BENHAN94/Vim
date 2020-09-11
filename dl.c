@@ -5,7 +5,7 @@ struct Node {
 	int data;
 	struct Node *next;
 	struct Node *prev;
-}*first=NULL;
+}*first=NULL,*head=NULL;
 
 void create(int A[], int n){
 	int i;
@@ -60,43 +60,44 @@ void insert(struct Node *p, int index, int x){
 
 int delete(struct Node *p, int index){
 	int i,x;
-	struct Node *q,*r;
-	if(index<0 || index>length(p)){
+	if(index<0 || index>length(first)){
 		return -1;
 	}
 	if(index==0){
-		p=p->next;
-		p->prev=NULL;
-		x=first->data;
-		free(first);
-		first=p;
-	}else if(index==length(first)){
-		while(p){
-			q=p;
-			p=p->next;
-		}
-		q->next=NULL;
+		first=first->next;
+		if(first)first->prev=NULL;
 		x=p->data;
 		free(p);
 	}else{
-	for(i=0;i<index;i++){
-		q=p;
-		p=p->next;
-	}
-	r=p->next;
-	q->next=p->next;
-	r->prev=q;
-	x=p->data;
-	free(p);
+		for(i=0;i<index;i++){
+			p=p->next;
+		}
+		p->prev->next=p->next;
+		if(p->next)
+			p->next->prev=p->prev;
+		x=p->data;
+		free(p);
 	}
 	return x;
 }
 
+void reverse(struct Node *p){
+	struct Node *tmp;
+	while(p){
+			tmp=p->next;
+			p->next=p->prev;
+			p->prev=tmp;
+			p=p->prev;
+			if(p!=NULL && p->next==NULL)
+				first=p;
+		}
+	}
+
+
 int main(){
 	int A[] = {10,20,30,40,50};
 	create(A, 5);
-	insert(first,3,35);
-	printf("%d is deleted\n", delete(first,5));
+	reverse(first);
 	printf("length is %d\n",length(first));
 	display(first);
 	return 0;
