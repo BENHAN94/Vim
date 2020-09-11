@@ -340,8 +340,24 @@ int isLoop(struct Node *f){
 	return p==q?1:0;
 }
 
+int mid(struct Node *p){
+	struct Node *q;
+	q=first;
+	while(q){
+		q=q->next;
+		if(q)
+			q=q->next;
+		if(q)
+			p=p->next;
+	} 
+	return p->data;
+}
+
 int main(){
 	int A[]={10,20,30,40,50};
+	create(A,5);
+	printf("%d\n", mid(first));
+	Display(first);
     return 0;
 }
 
