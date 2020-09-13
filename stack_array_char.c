@@ -5,13 +5,7 @@
 struct Stack{
 	int size;
 	int top;
-	int *s;
-};
-
-struct StackC{
-	int size;
-	int top;
-	char *s;
+	char *c;
 };
 
 int isEmpty(struct Stack st){
@@ -28,19 +22,19 @@ int isFull(struct Stack st){
 	return 0;
 }
 
-void push(struct Stack *st, int x){
+void push(struct Stack *st, char x){
 	if(!isFull(*st)){
 	st->top++;
-	st->s[st->top]=x;
+	st->c[st->top]=x;
 	}else{
 		printf("Stack overflow\n");
 	}
 }
 
-int pop(struct Stack *st){
-	int x=-1;
+char pop(struct Stack *st){
+	char x=-1;
 	if(!isEmpty(*st)){
-		x=st->s[st->top];
+		x=st->c[st->top];
 		st->top--;
 	}else{
 		printf("Stack underflow\n");
@@ -48,22 +42,22 @@ int pop(struct Stack *st){
 	return x;
 }
 
-int peek(struct Stack st, int pos){
-	int x=-1;
+char peek(struct Stack st, int pos){
+	char x=-1;
 	int index=st.top-pos+1;
 	if(index<0){
 		printf("Invalid position\n");
 	}else{
-		x=st.s[index]; 
+		x=st.c[index]; 
 	}
 	return x; 
 }
 
-int stackTop(struct Stack st){
+char stackTop(struct Stack st){
 	if(st.top==-1){
 		return -1;
 	}else{
-		return st.s[st.top];
+		return st.c[st.top];
 	}
 }
 
@@ -83,12 +77,29 @@ int pre(char x){
 }
  
 char *convert(char *infix){
-	struct Stack st;
-
-
+	struct Stack st; 
+	int i=0,j=0;
+	char *postfix=(char *)malloc((strlen(infix)+2)*sizeof(char));
+	while(infix[i]!='\0'){
+		if(isOperand(infix[i]))
+			postfix[j++]=infix[i++];
+		else{
+			if(pre(infix[i]>pre(st.top)))
+				push(&st,infix[i++]);
+			else
+				postfix[j++]=pop(&st);
+		}
+	}
+	while(!isEmpty(st)){
+		postfix[j++]=pop(&st);
+	}
+	postfix[j]='\0';
+	return postfix; 
 }
 
 int main(){
-	char infix[]="a+b*c-d/e";
+	char *infix="a+b*c-d/e"; 
+	char *postfix=convert(infix);
+	printf("%s ",postfix);
 	return 0;
 }
