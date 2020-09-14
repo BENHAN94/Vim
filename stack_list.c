@@ -64,6 +64,9 @@ int stackTop(){
 
 int main(){
 
+	push(8);
+	
+	printf("%d ",stackTop());
 
 
 	return 0;
