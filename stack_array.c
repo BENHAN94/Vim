@@ -82,12 +82,6 @@ int pre(char x){
 	return 0;
 }
  
-char *convert(char *infix){
-	struct Stack st;
-
-
-}
-
 int main(){
 	char infix[]="a+b*c-d/e";
 	return 0;
