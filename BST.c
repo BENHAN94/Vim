@@ -1,11 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 struct Node{ 
 	struct Node *lchild;
 	struct Node *rchild;
 	int data;
 }*root=NULL;
+
+struct Stack{
+	struct Node **s; 
+	int top; 
+}*first;
+
+void push(struct Node *p){ 
+	first->top++;
+	first->s[first->top]=p;
+}
+
+struct Node *pop(){ 
+	struct Node *p;
+	if(first->top!=-1){
+		p=first->s[first->top--]; 
+	}
+	return p; 
+}
+
+int stackTop(){
+	if(first->top!=-1)
+		return first->s[first->top]->data;
+	return INT_MAX;
+}
 
 void insert(int key){
 	struct Node *t=root;
@@ -124,22 +149,47 @@ struct Node *delete(struct Node *p, int key){
 	return p;
 }
 
+void createFromPre(struct Stack *st,int pre[], int size){ 
+	int i=1;
+	struct Node *p,*t;
+	root=(struct Node *)malloc(sizeof(struct Node));
+	root->rchild=root->lchild=NULL;
+	root->data=pre[0];
+	t=root;
+	while(i<size-1){ 
+		if(pre[i]<t->data){
+			p=(struct Node *)malloc(sizeof(struct Node));
+			p->rchild=p->lchild=NULL;
+			p->data=pre[i++];
+			t->lchild=p;
+			push(t);
+			t=p;
+		}else{
+			if(pre[i]<stackTop()){
+				p=(struct Node *)malloc(sizeof(struct Node));
+				p->rchild=p->lchild=NULL;
+				p->data=pre[i++];
+				t->rchild=p;
+				t=p; 
+			}else{
+				t=pop();
+			}
+		} 
+	}
+}
+
 
 int main(){
 
-	struct Node *temp;
+	int pre[]={30,20,10,15,25,40,50,45};
+	int size=sizeof(pre)/sizeof(int); 
+	first=(struct Stack *)malloc(sizeof(struct Stack));
+	first->s=(struct Node **)malloc(size*sizeof(struct Node *)); 
+	first->top=-1;
 
-	root=Rinsert(root,50);
-	Rinsert(root,10);
-	Rinsert(root,40);
-	Rinsert(root,20);
-	Rinsert(root,30);
-
-	temp=delete(root, 30);
+	createFromPre(first,pre,size);
 
 	inorder(root);
-	printf("\n");
-
 
 
 	return 0;

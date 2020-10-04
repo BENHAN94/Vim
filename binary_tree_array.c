@@ -227,13 +227,42 @@ int countDegreeOne(struct Node *t){
 	return 0;
 }
 
+int searchInorder(int in[], int inStart, int inEnd, int data){ 
+	int i;
+	for(i=inStart;i<inEnd;i++){ 
+		if(data==in[i])
+			return i;
+	} 
+	return i;
+}
+
+struct Node *createTaverse(int pre[], int in[], int inStart, int inEnd){ 
+	static int preIndex=0;
+	int splitIndex;
+	struct Node *p;
+
+	if(inStart>inEnd)
+		return NULL; 
+
+	p=(struct Node *)malloc(sizeof(struct Node)); 
+	p->lchild=p->rchild=NULL;
+	p->data=pre[preIndex++]; 
+	if(inStart==inEnd)
+		return p;
+
+	splitIndex=searchInorder(in,inStart,inEnd,p->data);
+	p->lchild=createTaverse(pre,in,inStart,splitIndex-1);
+	p->rchild=createTaverse(pre,in,splitIndex+1,inEnd);
+
+	return p; 
+}
+
 int main(){ 
-	TreeCreate(); 
-	levelOrder(root);
-	printf("\ncount: %d",count(root));
-	printf("\nheight: %d",height(root));
-	printf("\nleaf: %d",countLeaf(root));
-	printf("\ninternal: %d",countInternal(root));
+	int pre[]={4,7,9,6,3,2,5,8,1};
+	int in[]={7,6,9,3,4,5,8,2,1};
+	root=createTaverse(pre,in,0,sizeof(in)/sizeof(in[0])-1);
+
+	preorder(root);
 
 	return 0;
 }

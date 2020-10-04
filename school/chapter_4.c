@@ -137,7 +137,7 @@ void findLeftNode(struct treeNode *t){
 	}
 }
 
-int main(){
+int main(int argc, char* argv[]){ 
 
 	//txt파일의 int값을 트리로 생성
 	fetchTxtCreateTree(); 
@@ -145,9 +145,9 @@ int main(){
 	// 트리를 생성하는데 사용했던 queue를 초기화
 	while(!isEmpty()){
 		dequeue();
-	}
-
+	} 
 	// 레벨당 가장 왼쪽에 있는 값과 해당 레벨 출력
 	findLeftNode(root);
+
 	return 0;
 }
